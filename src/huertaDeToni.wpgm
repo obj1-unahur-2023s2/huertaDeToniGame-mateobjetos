@@ -30,6 +30,19 @@ program huertaDeToni {
 	 * un rango (1..13), que equivale a la lista [1, 2, 3, ..., 13].
 	 */
 	(1..13).forEach { x => game.addVisualIn(new Maiz(), game.at(x, 5)) }
+	
+	keyboard.up().onPressDo({
+		toni.moverArriba()
+	})
+	keyboard.down().onPressDo({
+		toni.moverAbajo()
+	})
+	keyboard.left().onPressDo({
+		toni.moverIzq()
+	})
+	keyboard.right().onPressDo({
+		toni.moverDer()
+	})
 		
 	game.start()
 }
