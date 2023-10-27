@@ -1,21 +1,16 @@
 import wollok.game.*
 
 class Elemento {
-	var image = null
-	var position = null
-	
-	method colocarImagen()
-	
-	method colocarPosicion()
+	var image
+	var position 
 	
 	method image() = image
 	
 	method position() = position
 	
 	method aparecer(){
-		self.colocarImagen()
-		self.colocarPosicion()
 		game.addVisualCharacter(self)
+		self.avanzar()
 	}	
 	
 	method desaparecer(){
@@ -34,33 +29,14 @@ class Elemento {
 			self.desaparecer()
 		}
 	}
-	
-	method aparecerYAvanzar(){
-		self.aparecer()
-		self.avanzar()
-	}
-	
-	method positionAleatoria() = game.at((0.randomUpTo(game.width())), 10)
 }
 
 
 class Piedra inherits Elemento{
-	
-	override method colocarImagen(){
-		image = "icons8-meteorite-48.png"
-	}
-	
-	override method colocarPosicion(){
-		position = self.positionAleatoria()
-	}
 
 }
 
 class VidaExtra inherits Elemento{
-	
-	override method colocarImagen(){
-		image = "icons8-me-gusta-64.png"
-	}
 	
 }
 
@@ -69,16 +45,59 @@ class Vida inherits VidaExtra{
 	method colocarVidaEn(x, y){
 		position = game.at(x,y)
 	}
+	
 }
 
 class Disparo inherits Elemento{
 	
-	override method colocarImagen(){
-		image = "icons8-bala-16.png"
+}
+
+class Nave inherits Elemento {
+	var vidas = 3
+	
+	method perderVida(){}
+	
+}
+
+class Principal inherits Nave{
+	
+	method derecha(){
+		if (position.x() < game.width() - 1){
+			position = position.right(1)
+		}
 	}
 	
-	override method colocarPosicion(){
-		position = position.up(1)
+	method izquierda(){
+		if (position.x() > 0){
+			position = position.left(1)
+		}	
+	}
+	
+	method disparar(){
+		const ataque = new Disparo(image = disparoImg.imagen(), position = position.up(1))
+		game.addVisual(ataque)
+		ataque.avanzar()
+	}
+	
+	override method avanzar(){
+		keyboard.right().onPressDo({self.derecha()})
+		keyboard.left().onPressDo({self.izquierda()})
+		keyboard.space().onPressDo({self.disparar()})
+	}
+	
+	method agarrarVida(){
+		
 	}
 }
+
+
+class Enemiga inherits Nave{
+	
+}
+
+object disparoImg{
+	
+	method imagen() = "icons8-bala-16.png"
+}
+
 
