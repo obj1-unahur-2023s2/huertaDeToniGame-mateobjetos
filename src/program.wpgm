@@ -1,0 +1,10 @@
+import elementos.*
+import batallaEspacialN.*
+import wollok.game.*
+
+
+program juego {
+	batallaEspacial.iniciarJuego()
+	game.start()
+	
+}
